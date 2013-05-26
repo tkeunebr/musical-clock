@@ -1,12 +1,17 @@
+# Java class files
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
 # built application files
 *.apk
 *.ap_
 
 # files for the dex VM
 *.dex
-
-# Java class files
-*.class
 
 # generated files
 bin/
@@ -18,3 +23,39 @@ local.properties
 # Eclipse project files
 .classpath
 .project
+
+# IntelliJ files and folders
+.idea/
+.settings/
+*.iml
+*.iws
+*.ipr
+classes
+gen-external-apklibs
+
+# Windows file system files
+*.db
+
+# Mac file system files
+.DS_Store
+
+# Ant
+bin
+gen
+build
+out
+lib
+build.xml
+proguard-project.txt
+
+# Maven
+target
+pom.xml.*
+release.properties
+
+# Gradle
+.gradle/
+build.gradle
+gradle-wrapper.properties
+gradlew
+gradlew.bat
