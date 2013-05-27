@@ -3,5 +3,6 @@
 
     <string name="app_name">MusicalClock</string>
     <string name="action_settings">Paramètres</string>
+    <string name="open_alarm">Configurer l\'alarme</string>
 
 </resources>
