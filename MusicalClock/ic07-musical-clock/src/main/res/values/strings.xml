@@ -4,5 +4,8 @@
     <string name="app_name">MusicalClock</string>
     <string name="action_settings">Paramètres</string>
     <string name="open_alarm">Configurer l\'alarme</string>
+    <string name="new_alarm">Nouvelle alarme</string>
+    <string name="date_picker_caption">Date</string>
+    <string name="time_picker_caption">Heure</string>
 
 </resources>
