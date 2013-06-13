@@ -12,7 +12,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
-import android.widget.Toast;
+import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.Style;
 
 import java.util.Calendar;
 
@@ -58,9 +59,17 @@ public class MainActivity extends Activity {
         calSet.set(Calendar.SECOND, 0);
         calSet.set(Calendar.MILLISECOND, 0);
 
-        Toast.makeText(this, "Alarm is set the " + calSet.get(Calendar.DAY_OF_MONTH) + " @ " + calSet.getTime(), Toast.LENGTH_SHORT).show();
+        Crouton.makeText(this, "Alarm is set the " + calSet.get(Calendar.DAY_OF_MONTH) + " @ " + calSet.getTime(),
+                Style.INFO).show();
         final AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        alarmManager.set(AlarmManager.RTC_WAKEUP, calSet.getTimeInMillis()
+        alarmManager.set(AlarmManager.RTC_WAKEUP, calSet.getTimeInMillis(),
                 PendingIntent.getBroadcast(this, 1, new Intent(this, AlarmReceiver.class), 0));
+    }
+
+    @Override
+    protected void onDestroy() {
+        Crouton.clearCroutonsForActivity(this);
+
+        super.onDestroy();
     }
 }
