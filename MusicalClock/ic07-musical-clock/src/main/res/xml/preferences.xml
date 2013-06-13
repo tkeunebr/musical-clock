@@ -2,22 +2,24 @@
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
-        android:title="Coucou1"
-        android:key="pref_key_storage_settings">
+        android:title="@string/ringtone_settings"
+        android:key="pref_key_ringtone_settings">
+        <ListPreference
+            android:key="pref_key_ringtone_style"
+            android:summary="@string/pref_music_default"
+            android:title="@string/music_style"
+            android:dialogTitle="@string/music_style"
+            android:entries="@array/pref_music_style_entries"
+            android:entryValues="@array/pref_music_style_entries"
+            android:defaultValue="@string/pref_music_default"/>
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="@string/preferences"
+        android:key="pref_key_preferences">
         <CheckBoxPreference
-            android:key="pref_key_auto_delete"
+            android:key="pref_key_time_to_sleep"
             android:summary="Coucou1"
             android:title="Coucou1"
-            android:defaultValue="false" />
-        <Preference
-            android:key="pref_key_sms_delete_limit"
-            android:dependency="pref_key_auto_delete"
-            android:summary="Coucou1"
-            android:title="Coucou1" />
-        <Preference
-            android:key="pref_key_mms_delete_limit"
-            android:dependency="pref_key_auto_delete"
-            android:summary="Coucou1"
-            android:title="Coucou1" />
+            android:defaultValue="false"/>
     </PreferenceCategory>
 </PreferenceScreen>
