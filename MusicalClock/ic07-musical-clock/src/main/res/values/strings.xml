@@ -23,6 +23,8 @@
     </string-array>
     <string name="pref_music_default">@string/pref_music_random</string>
     <string name="preferences">Préférences</string>
+    <string name="pref_time_to_sleep">Temps avant de s\'endormir (en minutes)</string>
+    <string name="pref_time_to_sleep_default">15</string>
 
 
 </resources>

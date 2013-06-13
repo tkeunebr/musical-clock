@@ -11,15 +11,15 @@
             android:dialogTitle="@string/music_style"
             android:entries="@array/pref_music_style_entries"
             android:entryValues="@array/pref_music_style_entries"
-            android:defaultValue="@string/pref_music_default"/>
+            android:defaultValue="@string/pref_music_default" />
     </PreferenceCategory>
     <PreferenceCategory
         android:title="@string/preferences"
         android:key="pref_key_preferences">
-        <CheckBoxPreference
+        <fr.tkeunebr.ic07.ui.custom.NumberPickerDialogPreference
             android:key="pref_key_time_to_sleep"
-            android:summary="Coucou1"
-            android:title="Coucou1"
-            android:defaultValue="false"/>
+            android:summary="@string/pref_time_to_sleep"
+            android:title="@string/pref_time_to_sleep"
+            android:defaultValue="15" />
     </PreferenceCategory>
 </PreferenceScreen>

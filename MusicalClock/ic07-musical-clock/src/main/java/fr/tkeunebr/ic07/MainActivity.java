@@ -60,8 +60,10 @@ public class MainActivity extends Activity {
     public void setAlarm(View v) {
         // Fetch the user's preferences
         final String music = mPrefs.getString(PreferencesActivity.KEY_PREF_RINGTONE_STYLE,
-                getString(R.string.pref_music_random));
-        Toast.makeText(this, music, Toast.LENGTH_SHORT).show();
+                getString(R.string.pref_music_default));
+        final int timeToSleep = mPrefs.getInt(PreferencesActivity.KEY_PREF_TIME_TO_SLEEP,
+                Integer.parseInt(getString(R.string.pref_time_to_sleep_default)));
+        Toast.makeText(this, "musique == " + music + ", temps == " + timeToSleep, Toast.LENGTH_SHORT).show();
 
 
         final Calendar calSet = Calendar.getInstance();
