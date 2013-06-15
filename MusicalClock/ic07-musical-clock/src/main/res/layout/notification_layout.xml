@@ -1,47 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:padding="3dp">
 
     <ImageView
-        android:id="@+id/notification_main_img"
+        android:id="@+id/notImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_launcher" />
+        android:layout_marginRight="10dp"
+        android:src="@drawable/ic_launcher"
+        android:layout_alignParentTop="true" />
 
     <TextView
-        android:id="@+id/notification_main_txt"
+        android:id="@+id/notContentTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dip"
-        android:layout_toRightOf="@id/notification_main_img"
-        android:text="Notification from remote view" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/notification_main_img"
-        android:layout_below="@id/notification_main_txt"
-        android:layout_toRightOf="@id/notification_main_img"
-        android:orientation="horizontal"
-        android:weightSum="2">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/notification_main_img"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="Sub Text 1" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/notification_main_img"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="Sub Text 2" />
-    </LinearLayout>
+        android:layout_toRightOf="@id/notImage"
+        android:textStyle="bold"
+        android:text="@string/app_name"
+        style="@android:style/TextAppearance.StatusBar.EventContent.Title" />
 
 </RelativeLayout>
