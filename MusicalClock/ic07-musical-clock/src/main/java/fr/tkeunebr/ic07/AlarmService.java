@@ -9,6 +9,7 @@ import android.media.MediaPlayer;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.os.Vibrator;
+import android.widget.RemoteViews;
 
 public class AlarmService extends Service {
 	private static final int NOTIFICATION_ID = 1;
@@ -22,6 +23,7 @@ public class AlarmService extends Service {
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		final Context context = getApplicationContext();
+		final MusicAdapter adapter = new MusicAdapter(context);
 
 		final Intent notifIntent = new Intent(this, MainActivity.class);
 		notifIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -30,13 +32,13 @@ public class AlarmService extends Service {
 				notifIntent,
 				PendingIntent.FLAG_UPDATE_CURRENT);
 
+		final RemoteViews view = new RemoteViews(getPackageName(), R.layout.notification_layout);
 		final Notification notification = new Notification.Builder(context)
-				.setContentTitle(context.getResources().getString(R.string.app_name))
-				.setContentText("coucou Content") // Music name
+				.setSmallIcon(R.drawable.ic_launcher)
 				.setOngoing(true)
 				.setContentIntent(pendingIntent)
-				.setTicker("test")
-				.setSmallIcon(R.drawable.ic_launcher)
+				.setTicker("Wake up :-)")
+				.setContent(view)
 				.build();
 
 		startForeground(NOTIFICATION_ID, notification);
@@ -44,7 +46,7 @@ public class AlarmService extends Service {
 		final Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
 		vibrator.vibrate(2000);
 
-		mPlayer = MediaPlayer.create(context, R.raw.classic_short_1);
+		mPlayer = MediaPlayer.create(context, adapter.getAlarmAsResource());
 		mPlayer.setWakeMode(context, PowerManager.PARTIAL_WAKE_LOCK);
 		mPlayer.start();
 
