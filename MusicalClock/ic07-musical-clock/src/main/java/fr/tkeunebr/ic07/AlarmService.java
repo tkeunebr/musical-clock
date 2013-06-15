@@ -5,11 +5,14 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.AssetFileDescriptor;
 import android.content.res.Resources;
 import android.media.MediaPlayer;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.os.Vibrator;
+
+import java.io.IOException;
 
 public class AlarmService extends Service {
 	public static final String KEY_START_PLAYING = "start_playing";
@@ -59,14 +62,32 @@ public class AlarmService extends Service {
 			startForeground(NOTIFICATION_ID, notification);
 
 			final Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
-			vibrator.vibrate(2000);
+			vibrator.vibrate(2000); // ODO: adjust value
 
-			mPlayer = MediaPlayer.create(context, adapter.getAlarmAsResource());
-			mPlayer.setWakeMode(context, PowerManager.PARTIAL_WAKE_LOCK);
-			mPlayer.start();
+			if (mPlayer == null) {
+				mPlayer = MediaPlayer.create(context, adapter.getAlarmAsResource());
+				mPlayer.setWakeMode(context, PowerManager.PARTIAL_WAKE_LOCK);
+				mPlayer.start();
+			} else {
+				mPlayer.reset();
+				final AssetFileDescriptor afd = resources.openRawResourceFd(adapter.getAlarmAsResource());
+				try {
+					mPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
+					afd.close();
+					mPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+						@Override
+						public void onPrepared(MediaPlayer mediaPlayer) {
+							mediaPlayer.start();
+						}
+					});
+					mPlayer.prepareAsync();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 
-		return START_STICKY;
+		return START_NOT_STICKY;
 	}
 
 	@Override

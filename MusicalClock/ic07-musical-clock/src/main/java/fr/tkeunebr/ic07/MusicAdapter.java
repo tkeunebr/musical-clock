@@ -5,7 +5,15 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.preference.PreferenceManager;
 
+import java.util.Random;
+
 public class MusicAdapter {
+	private static final int[] sMusicFiles = new int[]{
+			R.raw.classic_short,
+			R.raw.pop_short,
+			R.raw.rock_short
+	};
+	private final Random mRandom = new Random();
 	private final SharedPreferences mPrefs;
 	private final Context mContext;
 
@@ -19,18 +27,22 @@ public class MusicAdapter {
 		final String musicStyle = mPrefs.getString(PreferencesActivity.KEY_PREF_RINGTONE_STYLE,
 				resources.getString(R.string.pref_music_random));
 		if (resources.getString(R.string.pref_music_classical).equals(musicStyle)) {
-			return R.raw.classic_short;
+			return sMusicFiles[0];
 		}
 		if (resources.getString(R.string.pref_music_pop).equals(musicStyle)) {
-			return R.raw.pop_short;
+			return sMusicFiles[1];
 		}
 		if (resources.getString(R.string.pref_music_rock).equals(musicStyle)) {
-			return R.raw.rock_short;
+			return sMusicFiles[2];
+		}
+		if (resources.getString(R.string.pref_music_random).equals(musicStyle)) {
+			return sMusicFiles[mRandom.nextInt(sMusicFiles.length)];
 		}
 
 		final int timeToSleep = mPrefs.getInt(PreferencesActivity.KEY_PREF_TIME_TO_SLEEP,
 				Integer.parseInt(resources.getString(R.string.pref_time_to_sleep_default)));
+		// TODO: take into account
 
-		return R.raw.pop_short;
+		throw new IllegalStateException("Music preference is not set or contains wrong value");
 	}
 }
