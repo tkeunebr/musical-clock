@@ -62,7 +62,7 @@ public class AlarmService extends Service implements MediaPlayer.OnCompletionLis
 			startForeground(NOTIFICATION_ID, notification);
 
 			final Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
-			vibrator.vibrate(2000); // ODO: adjust value
+			vibrator.vibrate(2000); // TODO: adjust value
 
 			if (mPlayer == null) {
 				mPlayer = MediaPlayer.create(context, adapter.getAlarmAsResource());
