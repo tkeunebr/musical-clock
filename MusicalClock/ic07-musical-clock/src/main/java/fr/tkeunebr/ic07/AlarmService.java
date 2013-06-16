@@ -14,7 +14,7 @@ import android.os.Vibrator;
 
 import java.io.IOException;
 
-public class AlarmService extends Service {
+public class AlarmService extends Service implements MediaPlayer.OnCompletionListener {
 	public static final String KEY_START_PLAYING = "start_playing";
 	public static final String KEY_STOP_PLAYING = "stop_playing";
 	private static final int NOTIFICATION_ID = 1;
@@ -67,6 +67,7 @@ public class AlarmService extends Service {
 			if (mPlayer == null) {
 				mPlayer = MediaPlayer.create(context, adapter.getAlarmAsResource());
 				mPlayer.setWakeMode(context, PowerManager.PARTIAL_WAKE_LOCK);
+				mPlayer.setOnCompletionListener(this);
 				mPlayer.start();
 			} else {
 				mPlayer.reset();
@@ -96,5 +97,10 @@ public class AlarmService extends Service {
 			mPlayer.release();
 			mPlayer = null;
 		}
+	}
+
+	@Override
+	public void onCompletion(MediaPlayer mediaPlayer) {
+		stopSelf();
 	}
 }
