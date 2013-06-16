@@ -39,10 +39,6 @@ public class MusicAdapter {
 			return sMusicFiles[mRandom.nextInt(sMusicFiles.length)];
 		}
 
-		final int timeToSleep = mPrefs.getInt(PreferencesActivity.KEY_PREF_TIME_TO_SLEEP,
-				Integer.parseInt(resources.getString(R.string.pref_time_to_sleep_default)));
-		// TODO: take into account
-
 		throw new IllegalStateException("Music preference is not set or contains wrong value");
 	}
 }

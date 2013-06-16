@@ -5,6 +5,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.format.DateFormat;
@@ -53,6 +54,7 @@ public class MainActivity extends Activity {
 	}
 
 	public void setAlarm(View v) {
+		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		final Calendar calSet = Calendar.getInstance();
 
 		calSet.set(Calendar.YEAR, mDatePicker.getYear());
@@ -63,11 +65,18 @@ public class MainActivity extends Activity {
 		calSet.set(Calendar.SECOND, 0);
 		calSet.set(Calendar.MILLISECOND, 0);
 
-		Crouton.makeText(this, "Alarm is set the " + calSet.get(Calendar.DAY_OF_MONTH) + " @ " + calSet.getTime(),
-				Style.INFO).show();
+		final int timeToFallAsleep = prefs.getInt(
+				PreferencesActivity.KEY_PREF_TIME_TO_SLEEP,
+				Integer.parseInt(getResources().getString(R.string.pref_time_to_sleep_default))
+		);
+		final SleepCalculator sleepCalculator = new SleepCalculator(calSet, timeToFallAsleep);
+		sleepCalculator.computeWakeUpTime(this); // TODO: remove Context
+
 		final AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 		alarmManager.set(AlarmManager.RTC_WAKEUP, calSet.getTimeInMillis(),
 				PendingIntent.getBroadcast(this, 1, new Intent(this, AlarmReceiver.class), 0));
+		Crouton.makeText(this, "L'alarme sonnera le " + calSet.get(Calendar.DAY_OF_MONTH) + " @ " + calSet.getTime(),
+				Style.INFO).show();
 	}
 
 	@Override
