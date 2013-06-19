@@ -1,8 +1,5 @@
 package fr.tkeunebr.ic07;
 
-import android.content.Context;
-import android.widget.Toast;
-
 import java.util.Calendar;
 import java.util.Date;
 
@@ -16,17 +13,14 @@ public class SleepCalculator {
 		mDeltaMinutes = timeToFallAsleep;
 	}
 
-	public Calendar computeWakeUpTime(Context context) {
+	public Calendar computeWakeUpTime() {
 		final long now = new Date().getTime();
 		final long timeDiff = mCalendar.getTimeInMillis() - now;
-		if (timeDiff > 0) {
+		if (timeDiff > 0 && timeDiff > SLEEP_CYCLE_LENGTH_MILLIS) {
 			final int deltaMillis = mDeltaMinutes * 60 * 1000;
 			final int nbCycles = (int) (timeDiff - deltaMillis) / SLEEP_CYCLE_LENGTH_MILLIS;
-			Toast.makeText(context, "Nb cycles == " + String.valueOf(nbCycles), Toast.LENGTH_SHORT).show();
 			final long actualSleepTime = now + deltaMillis + (nbCycles * SLEEP_CYCLE_LENGTH_MILLIS);
 			mCalendar.setTime(new Date(actualSleepTime));
-		} else {
-			Toast.makeText(context, "Time is before now, ringing now :)", Toast.LENGTH_SHORT).show();
 		}
 		return mCalendar;
 	}

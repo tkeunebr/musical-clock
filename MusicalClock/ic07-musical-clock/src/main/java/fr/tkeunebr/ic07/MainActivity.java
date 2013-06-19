@@ -14,12 +14,18 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
-import de.keyboardsurfer.android.widget.crouton.Crouton;
-import de.keyboardsurfer.android.widget.crouton.Style;
 
 import java.util.Calendar;
 
+import de.keyboardsurfer.android.widget.crouton.Configuration;
+import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.Style;
+import fr.tkeunebr.ic07.util.DateUtils;
+
 public class MainActivity extends Activity {
+	private final Configuration mCroutonConfiguration = new Configuration.Builder()
+			.setDuration(Configuration.DURATION_LONG)
+			.build();
 	private DatePicker mDatePicker;
 	private TimePicker mTimePicker;
 
@@ -70,13 +76,14 @@ public class MainActivity extends Activity {
 				Integer.parseInt(getResources().getString(R.string.pref_time_to_sleep_default))
 		);
 		final SleepCalculator sleepCalculator = new SleepCalculator(calSet, timeToFallAsleep);
-		sleepCalculator.computeWakeUpTime(this); // TODO: remove Context
+		sleepCalculator.computeWakeUpTime();
 
 		final AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 		alarmManager.set(AlarmManager.RTC_WAKEUP, calSet.getTimeInMillis(),
 				PendingIntent.getBroadcast(this, 1, new Intent(this, AlarmReceiver.class), 0));
-		Crouton.makeText(this, "L'alarme sonnera le " + calSet.get(Calendar.DAY_OF_MONTH) + " @ " + calSet.getTime(),
-				Style.INFO).show();
+		Crouton.makeText(this, "L'alarme sonnera le " + calSet.get(Calendar.DAY_OF_MONTH) + " @ " +
+				DateUtils.format(calSet.getTime()),
+				Style.INFO).setConfiguration(mCroutonConfiguration).show();
 	}
 
 	@Override
