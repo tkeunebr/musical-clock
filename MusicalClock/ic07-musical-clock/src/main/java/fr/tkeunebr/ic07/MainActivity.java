@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.format.DateFormat;
@@ -87,9 +88,10 @@ public class MainActivity extends Activity {
 			msg = "L'alarme sonnera le " + calSet.get(Calendar.DAY_OF_MONTH) + " @ " +
 					DateUtils.format(calSet.getTime());
 		}
+		final Resources resources = getResources();
 		new AlertDialog.Builder(this)
 				.setMessage(msg)
-				.setPositiveButton(getResources().getString(android.R.string.ok), new DialogInterface.OnClickListener() {
+				.setPositiveButton(resources.getString(android.R.string.ok), new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialogInterface, int i) {
 						final AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
@@ -100,7 +102,7 @@ public class MainActivity extends Activity {
 								.setConfiguration(mCroutonConfiguration).show();
 					}
 				})
-				.setNegativeButton(getResources().getString(android.R.string.cancel), new DialogInterface.OnClickListener() {
+				.setNegativeButton(resources.getString(android.R.string.cancel), new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialogInterface, int i) {
 					}
