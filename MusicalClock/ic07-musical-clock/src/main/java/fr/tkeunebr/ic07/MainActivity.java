@@ -2,8 +2,10 @@ package fr.tkeunebr.ic07;
 
 import android.app.Activity;
 import android.app.AlarmManager;
+import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -78,12 +80,32 @@ public class MainActivity extends Activity {
 		final SleepCalculator sleepCalculator = new SleepCalculator(calSet, timeToFallAsleep);
 		sleepCalculator.computeWakeUpTime();
 
-		final AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-		alarmManager.set(AlarmManager.RTC_WAKEUP, calSet.getTimeInMillis(),
-				PendingIntent.getBroadcast(this, 1, new Intent(this, AlarmReceiver.class), 0));
-		Crouton.makeText(this, "L'alarme sonnera le " + calSet.get(Calendar.DAY_OF_MONTH) + " @ " +
-				DateUtils.format(calSet.getTime()),
-				Style.INFO).setConfiguration(mCroutonConfiguration).show();
+		final String msg;
+		if (calSet.getTimeInMillis() < System.currentTimeMillis()) {
+			msg = "L'alarme va sonner maintenant";
+		} else {
+			msg = "L'alarme sonnera le " + calSet.get(Calendar.DAY_OF_MONTH) + " @ " +
+					DateUtils.format(calSet.getTime());
+		}
+		new AlertDialog.Builder(this)
+				.setMessage(msg)
+				.setPositiveButton(getResources().getString(android.R.string.ok), new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialogInterface, int i) {
+						final AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+						alarmManager.set(AlarmManager.RTC_WAKEUP, calSet.getTimeInMillis(),
+								PendingIntent.getBroadcast(MainActivity.this, 1,
+										new Intent(MainActivity.this, AlarmReceiver.class), 0));
+						Crouton.makeText(MainActivity.this, msg, Style.INFO)
+								.setConfiguration(mCroutonConfiguration).show();
+					}
+				})
+				.setNegativeButton(getResources().getString(android.R.string.cancel), new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialogInterface, int i) {
+					}
+				})
+				.show();
 	}
 
 	@Override
